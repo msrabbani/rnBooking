@@ -53,11 +53,10 @@ export default function MainStack() {
       <Stack.Screen
         name="ScheduleOptions"
         component={ScheduleOptions}
-        options={{
-          headerShown: false,
-          title: 'Schedule',
-          headerStyle: { backgroundColor: '#ddf5ff' },
-        }}
+        options={({ route }) => ({
+          title: route.params.data.name,
+          headerStyle: { backgroundColor: '#ffcc00' },
+        })}
       />
     </Stack.Navigator>
   );

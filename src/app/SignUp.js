@@ -2,14 +2,14 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '../components/Button';
-// import {AuthContext} from '../navigation/AuthProvider';
+import { AuthContext } from '../navigation/Routes';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const fullField = email === '' || password === '';
 
-  // const {signup} = useContext(AuthContext);
+  const { signUp } = useContext(AuthContext);
   return (
     <ContainerSign>
       <TextinputWrapper>
@@ -41,7 +41,7 @@ export default function SignIn() {
 
       <Button
         buttonText={'Sign Up'}
-        // onPress={() => signup(email, password)}
+        onPress={() => signUp(email, password)}
         disabled={fullField}
       />
     </ContainerSign>

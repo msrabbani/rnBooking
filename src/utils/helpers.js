@@ -1,3 +1,7 @@
+import { Dimensions } from 'react-native';
+
+const widthScreen = Dimensions.get('screen').width;
+
 function formatDate(date) {
   let current_datetime = new Date(date);
   let months = [
@@ -24,4 +28,4 @@ function formatDate(date) {
   return formatted_date;
 }
 
-export {formatDate};
+export { formatDate, widthScreen };

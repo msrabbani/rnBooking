@@ -12,7 +12,7 @@ export default function SignIn({ navigation }) {
   const fullField = email === '' || password === '';
 
   return (
-    <ContainerSign>
+    <Container>
       <TextinputWrapper>
         <Icon
           name="account"
@@ -41,35 +41,26 @@ export default function SignIn({ navigation }) {
       </TextinputWrapper>
       <Button
         buttonText={'Sign In'}
+        style={{ marginTop: 20, width: '70%' }}
         onPress={() => signIn({ email, password })}
         disabled={fullField}
       />
-      <TextStyle>Don't have an account?</TextStyle>
-      <TextStyleClick onPress={() => navigation.navigate('SignUp')}>
-        {' '}
-        Create an account
-      </TextStyleClick>
-    </ContainerSign>
+    </Container>
   );
 }
 
-const ContainerSign = styled.View`
+const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-
-const TextStyle = styled.Text``;
-
-const TextStyleClick = styled.Text`
-  color: #fc9b1b;
-  font-weight: 600;
+  background-color: #363636;
 `;
 
 const TextInputStyle = styled.TextInput`
   font-size: 15px;
-  padding: 10px;
+  padding: 15px;
   background-color: #ffff;
+  border-radius: 5px;
   width: 60%;
 `;
 
