@@ -4,25 +4,26 @@ import styled from 'styled-components/native';
 import Button from '../components/Button';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const DummyTime = [
-  { id: 1, slot: '9:00 - 9:30', isSelect: false },
-  { id: 2, slot: '9:30 - 10:00', isSelect: false },
-  { id: 3, slot: '10:00 - 10:30', isSelect: false },
-  { id: 4, slot: '10:30 - 11:00', isSelect: false },
-  { id: 5, slot: '11:00 - 11:30', isSelect: false },
-  { id: 6, slot: '11:30 - 12:30', isSelect: false },
-  { id: 7, slot: '12:30 - 13:30', isSelect: false },
-  { id: 8, slot: '13:30 - 14:00', isSelect: false },
-  { id: 9, slot: '14:00 - 14:30', isSelect: false },
-  { id: 10, slot: '14:00 - 15:30', isSelect: false },
-  { id: 11, slot: '15:30 - 16:00', isSelect: false },
+const dummySlot = [
+  { id: 1, slot: '9:00 - 9:30', selected: false },
+  { id: 2, slot: '9:30 - 10:00', selected: false },
+  { id: 3, slot: '10:00 - 10:30', selected: false },
+  { id: 4, slot: '10:30 - 11:00', selected: false },
+  { id: 5, slot: '11:00 - 11:30', selected: false },
+  { id: 6, slot: '11:30 - 12:30', selected: false },
+  { id: 7, slot: '12:30 - 13:30', selected: false },
+  { id: 8, slot: '13:30 - 14:00', selected: false },
+  { id: 9, slot: '14:00 - 14:30', selected: false },
+  { id: 10, slot: '14:00 - 15:30', selected: false },
+  { id: 11, slot: '15:30 - 16:00', selected: false },
 ];
 
 export default function ScheduleOptions({ route, navigation }) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [selectedData, setSelectedData] = useState([]);
+  const [dataSlot, setDataSlot] = useState([]);
+  let dataSelected = dataSlot && dataSlot.filter((x, i) => x.selected);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -39,17 +40,20 @@ export default function ScheduleOptions({ route, navigation }) {
     showMode('date');
   };
 
-  const selectItem = (data) => {
-    data.isSelect = !data.isSelect;
-    let index = selectedData.findIndex((item) => data.id === item.id);
-    selectedData[index] = data;
-    let newData = [data, ...selectedData];
-    setSelectedData(newData);
+  const selectItem = (id) => {
+    let renderData = [...dataSlot];
+    for (let data of renderData) {
+      if (data.id == id) {
+        data.selected = !data.selected;
+        break;
+      }
+    }
+    setDataSlot(renderData);
   };
 
   const renderItems = ({ item }) => {
     return (
-      <Card selected={item.isSelect} onPress={() => selectItem(item)}>
+      <Card selected={item.selected} onPress={() => selectItem(item.id)}>
         <PublishText>{item.slot}</PublishText>
       </Card>
     );
@@ -57,7 +61,25 @@ export default function ScheduleOptions({ route, navigation }) {
 
   useEffect(() => {
     showDatepicker();
-  }, []);
+    setDataSlot(dummySlot);
+  }, [dataSlot]);
+
+  const onPressBookNow = () => {
+    Alert.alert(
+      'Thanks 💁',
+      'Happy Gym!',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            setDataSlot([]);
+            navigation.navigate('Home');
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <Container>
@@ -72,22 +94,15 @@ export default function ScheduleOptions({ route, navigation }) {
         />
       )}
       <FlatList
-        data={DummyTime}
+        data={dummySlot}
         renderItem={renderItems}
         keyExtractor={(item) => item.id.toString()}
-        extraData={selectedData}
       />
       <Button
+        disabled={dataSelected && !dataSelected.length}
         buttonText={'Book Now'}
         style={{ borderRadius: 0 }}
-        onPress={() =>
-          Alert.alert(
-            'Yaeh',
-            'Happy Gym!',
-            [{ text: 'OK', onPress: () => navigation.navigate('Home') }],
-            { cancelable: false }
-          )
-        }
+        onPress={onPressBookNow}
       />
     </Container>
   );
