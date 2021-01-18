@@ -41,7 +41,7 @@ export default function SignIn({ navigation }) {
       </TextinputWrapper>
       <Button
         buttonText={'Sign In'}
-        style={{ marginTop: 20, width: '70%' }}
+        style={{ marginTop: 20 }}
         onPress={() => signIn({ email, password })}
         disabled={fullField}
       />
@@ -61,7 +61,7 @@ const TextInputStyle = styled.TextInput`
   padding: 15px;
   background-color: #ffff;
   border-radius: 5px;
-  width: 60%;
+  width: 250px;
 `;
 
 const TextinputWrapper = styled.View`
