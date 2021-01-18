@@ -2,20 +2,18 @@ import React from 'react';
 import { FlatList, View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import Button from '../components/Button';
-import { formatDate } from '../utils/helpers';
-
-const widthScreen = Dimensions.get('screen').width;
+import { widthScreen } from '../utils/helpers';
 
 export default function PodList(props) {
   const renderItems = ({ item }) => {
     return (
       <Card>
-        <Title>{`Jl.Siliwangi gg.H.Marjuki no`}</Title>
+        <Title>{item.name}</Title>
         <ImageStyle source={{ uri: item.urlImage }} />
         <Button
           buttonText={'Book'}
-          style={{ width: '100%', borderRadius: 10 }}
-          onPress={() => props.onPressItem(item)}
+          style={{ width: widthScreen * 0.95, borderRadius: 5 }}
+          onPress={() => props.navigate('ScheduleOptions', { data: item })}
         />
       </Card>
     );
@@ -42,7 +40,7 @@ export default function PodList(props) {
         <FlatList
           data={props.data}
           renderItem={renderItems}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           numColumns={1}
           initialNumToRender={1}
           ItemSeparatorComponent={() => <FlatListItemSeparator />}
@@ -68,13 +66,9 @@ const ActivityIndicatorStyle = styled.ActivityIndicator`
 
 const Title = styled.Text`
   color: #ffcc00;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
-`;
-const Subtitle = styled.Text`
-  font-size: 11px;
-  color: #ffcc00;
 `;
 const Card = styled.View`
   padding: 5px;
@@ -93,7 +87,7 @@ const ImageStyle = styled.Image`
   align-items: center;
 `;
 const FlatListItemSeparator = styled.View`
-  height: 0.5px;
+  height: 0.3px;
   width: 90%;
   background-color: black;
   align-self: center;
